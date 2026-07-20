@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ologos-aioc"
+version = "0.1.0"
+description = "A small, model-agnostic orchestration core: provider gateway, model catalog, tool-calling loop, and a governance extension point."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [{ name = "Ologos Corp" }]
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Developers",
+]
+dependencies = []
+
+[project.optional-dependencies]
+openai = ["openai>=1.0"]
+dev = ["pytest>=8.0"]
+
+[project.urls]
+Homepage = "https://ologos.co/aioc/"
+Standard = "https://github.com/ologos-repos/ai-harness-engineering"
+
+[tool.setuptools.packages.find]
+include = ["ologos_aioc*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
