@@ -32,6 +32,8 @@ controls AI governance and orchestration across the enterprise captures a
 lot of the value in an agentic future."* The orchestration layer — not the
 model — is where enterprises are choosing to consolidate trust.
 
+![Where this repository sits: Enterprise AI (models, agents, MCP, workflows, data, services) below an AI Operations Center (governance, orchestration, assurance, evidence, operations) below the reference kernel (this repository, Apache-2.0)](docs/figures/positioning.png)
+
 ```bash
 pip install git+https://github.com/ologos-repos/ologos-aioc-public.git
 ```
@@ -158,9 +160,9 @@ orchestration), [NVIDIA NeMo / NemoClaw](https://www.nvidia.com/en-us/ai/nemocla
 [OpenClaw](https://github.com/openclaw/openclaw) (the self-hosted,
 multi-channel gateway pattern for AI agents), and
 [OpenCode](https://github.com/anomalyco/opencode) (the open-source coding-agent
-pattern, MIT). What's original here is the operating-model contract itself
-and the research behind it — published openly, independent of any client
-engagement:
+pattern, MIT). What's distinctive is the integration of these concepts into
+a coherent operating model, and the research program behind it — published
+openly, independent of any client engagement:
 
 - [AEON: An Enterprise Control Plane Architecture for the Agentic Era](https://doi.org/10.5281/zenodo.20349596)
 - [OAgents: A Pre-Standardization Draft Profile for Operational AI Agent Trustworthiness](https://doi.org/10.5281/zenodo.19427785)
