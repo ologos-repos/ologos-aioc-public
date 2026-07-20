@@ -3,6 +3,13 @@
 [![CI](https://github.com/ologos-repos/ologos-aioc-public/actions/workflows/ci.yml/badge.svg)](https://github.com/ologos-repos/ologos-aioc-public/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](pyproject.toml)
+[![Website](https://img.shields.io/badge/ologos.co-visit-c8956a)](https://ologos.co)
+
+**[Ologos Corp](https://ologos.co)** is a think tank and innovation
+factory — we incubate high-conviction ideas under rigorous systems
+discipline, then spin each one off as an independent venture. This
+repository is the open core beneath one of those ventures, the
+**[AI Operations Center](https://ologos.co/aioc/)**.
 
 **A reference architecture and executable kernel for the control plane
 beneath an AI Operations Center (AIOC).**
