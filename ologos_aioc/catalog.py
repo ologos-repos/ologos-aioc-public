@@ -11,6 +11,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+from .capabilities import CapabilityDescriptor
 from .providers import ModelProvider
 
 
@@ -19,6 +20,7 @@ class ModelEntry:
     name: str
     provider: ModelProvider
     tags: set[str] = field(default_factory=set)
+    capability: CapabilityDescriptor | None = None
 
 
 class ModelCatalog:
@@ -27,8 +29,14 @@ class ModelCatalog:
     def __init__(self) -> None:
         self._entries: dict[str, ModelEntry] = {}
 
-    def register(self, name: str, provider: ModelProvider, tags: set[str] | None = None) -> None:
-        self._entries[name] = ModelEntry(name=name, provider=provider, tags=tags or set())
+    def register(
+        self,
+        name: str,
+        provider: ModelProvider,
+        tags: set[str] | None = None,
+        capability: CapabilityDescriptor | None = None,
+    ) -> None:
+        self._entries[name] = ModelEntry(name=name, provider=provider, tags=tags or set(), capability=capability)
 
     def get(self, name: str) -> ModelEntry:
         try:

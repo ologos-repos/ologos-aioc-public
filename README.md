@@ -1,6 +1,14 @@
 # ologos-aioc
 
-**The open core beneath Ologos's AI Operations Center (AIOC).**
+**A reference architecture and executable kernel for the control plane
+beneath an AI Operations Center (AIOC).**
+
+An AI Operations Center is the enterprise operating capability responsible
+for governing, orchestrating, observing, assuring, and evidencing
+AI-enabled work across models, agents, tools, data, services, and human
+operators. That's a broader claim than "an agent library," and this repo
+is built to demonstrate the whole shape of it — as an architecture readers
+can inspect, not just a package to install.
 
 In 2026, frontier models proved they can find and exploit software
 vulnerabilities faster and more thoroughly than almost any human team —
@@ -19,15 +27,6 @@ models around them."* ServiceNow's CEO put it more bluntly: *"Whoever
 controls AI governance and orchestration across the enterprise captures a
 lot of the value in an agentic future."* The orchestration layer — not the
 model — is where enterprises are choosing to consolidate trust.
-
-`ologos-aioc` is the openly published core of that layer: a small,
-model-agnostic orchestration library — provider gateway, model catalog,
-tool-calling loop, and a governance extension point — released so the
-pattern is available to build on, independent of the governed enterprise
-product built on top of it. See [ologos.co/aioc](https://ologos.co/aioc/)
-for that product and the case for why it matters at enterprise scale, and
-the [AI Harness Engineering Standard](https://github.com/ologos-repos/ai-harness-engineering)
-for the formal specification behind the governance seam below.
 
 ```bash
 pip install git+https://github.com/ologos-repos/ologos-aioc-public.git
@@ -52,24 +51,35 @@ result = Orchestrator(model=catalog.route("fast"), tools=tools).run("call weathe
 print(result.text)
 ```
 
-See [`examples/basic_usage.py`](examples/basic_usage.py) for a runnable, dependency-free
-version of the above (no API key required).
+That's the minimal path. The governed path — a tool call actually being
+denied, an evidence trail actually being written, capability-aware routing —
+is in [`examples/`](examples/):
+
+| Example | Demonstrates |
+|---|---|
+| [`basic_usage.py`](examples/basic_usage.py) | The minimal loop above, runnable with no API key |
+| [`governed_tool_call.py`](examples/governed_tool_call.py) | A DENY decision preventing a tool's handler from ever running |
+| [`evidence_capture.py`](examples/evidence_capture.py) | A full run's lifecycle written to a JSON-lines evidence log |
+| [`domain_routing.py`](examples/domain_routing.py) | Routing by capability tag, domain, and risk — not just a name |
+| [`domain_profile.py`](examples/domain_profile.py) | Two domains, two declarative capability surfaces, one control plane |
 
 ## Why this exists
 
 Enterprises building on LLMs keep re-solving the same handful of problems
 before they get to anything domain-specific: talk to more than one model
 provider without hardcoding a vendor SDK everywhere, give the model tools
-and actually execute what it asks for, and have *somewhere* to hang policy
-— identity checks, audit capture, cost limits — without threading it through
-every call site by hand. This library is that layer, and only that layer.
+and actually execute what it asks for, have somewhere to hang policy —
+identity, audit, cost limits — without threading it through every call
+site by hand, and prove afterward that governed work actually happened.
+This library is that layer.
 
 It deliberately does **not** include a governed multi-tenant identity/audit
 system, a domain-console UI, or an air-gapped/sovereign deployment pattern.
 Those are real, harder problems that Ologos operates as a managed product —
 see [ologos.co/aioc](https://ologos.co/aioc/) — built on top of this same
 open interface. `GovernanceHook` is the seam: the open core ships a no-op
-default, a governed deployment supplies a real one.
+default and a working decision gate, a governed deployment supplies the
+real policy.
 
 ![One open interface, two things built on it: ologos-aioc (this repo, Apache-2.0) below, AIOC (Ologos's governed enterprise product) above, connected via GovernanceHook](docs/figures/layering.png)
 
@@ -78,10 +88,11 @@ default, a governed deployment supplies a real one.
 Ologos has developed and operated orchestration and governance patterns
 like these internally since late 2025, as part of our AI Operations Center
 (AIOC) work for enterprise and public-sector engagements. This package is a
-new, independently written, open-source implementation of that core
-pattern — not an extraction of any client or internal codebase — released
-so the pattern itself is available to build on, separate from the governed
-product built around it.
+new, independently written reference implementation of that architecture —
+not an extraction of any client or internal codebase — released so the
+pattern itself is available to build on, separate from the governed
+product built around it. See [`IP-BOUNDARY.md`](IP-BOUNDARY.md) for exactly
+where that line is drawn.
 
 The formal specification behind the governance seam is the **AI Harness
 Engineering Standard (AHES)**, a public, normative standard for the control
@@ -91,23 +102,47 @@ environment surrounding AI models and agents: see
 
 ## Architecture
 
+The full six-layer operating model — identity, authority, routing,
+execution, evidence, domain experience — and which layers this repo fully
+implements versus contracts for, is in [`ARCHITECTURE.md`](ARCHITECTURE.md).
+The short version:
+
 ![The orchestration loop: Orchestrator.run(prompt) dispatches through GovernanceHook.before_dispatch, routes via ModelCatalog to a ModelProvider, executes any tool calls through ToolRegistry and loops, then returns through GovernanceHook.after_dispatch to an OrchestratorResult](docs/figures/orchestration-flow.png)
 
+- **`ExecutionContext`** — the identity of a single run: a run ID plus
+  generic actor/purpose/domain metadata. No opinion about what those mean
+  in your deployment.
 - **`ModelProvider`** — one method, `complete(messages, tools) -> ModelResponse`.
   Ships `EchoProvider` (network-free, for tests/demos) and
-  `OpenAICompatibleProvider` (any OpenAI-chat-completions-shaped endpoint —
-  covers OpenAI itself and most self-hosted/open-weight serving stacks).
-  Add your own by subclassing.
-- **`ModelCatalog`** — register named models with capability tags
-  (`"fast"`, `"reasoning"`, ...); route by tag instead of hardcoding a
-  model string at every call site.
+  `OpenAICompatibleProvider` (any OpenAI-chat-completions-shaped endpoint).
+- **`ModelCatalog`** / **`CapabilityDescriptor`** — register named models
+  with capability tags and risk/domain metadata; route by what's needed,
+  not a hardcoded model string.
 - **`ToolRegistry`** / **`Tool`** — register Python callables with a JSON
-  Schema; the orchestrator handles turning model tool-calls into real
-  execution and feeding results back.
-- **`Orchestrator`** — the loop itself: dispatch, execute any tool calls,
-  repeat until a final answer or `max_tool_iterations` is hit
-  (`MaxIterationsExceeded` is the runaway-loop backstop).
-- **`GovernanceHook`** — the extension point described above.
+  Schema and optional capability metadata (side-effecting or not).
+- **`GovernanceHook`** / **`GovernanceDecision`** — the decision gate. A
+  DENY or REQUIRE_CONFIRMATION disposition prevents a tool's handler from
+  running at all, not just logs it afterward — proven in
+  [`CONFORMANCE.md`](CONFORMANCE.md), not just described here.
+- **`EvidenceRecorder`** / **`OperationStage`** — an optional, explicit
+  evidence plane: every stage of a run's lifecycle can produce a record.
+  The shipped recorders are illustrative only, not audit-grade.
+- **`profiles.py`** — declarative domain-console contracts: the same
+  control plane, a different capability surface per operating domain.
+- **`Orchestrator`** — ties all of the above into the actual
+  dispatch-and-tool-call loop, with `MaxIterationsExceeded` as the
+  runaway-loop backstop.
+
+## Conformance
+
+This isn't just described behavior — `CONFORMANCE.md` lists eight
+requirements (unique run IDs, the governance gate actually blocking
+execution, evidence capture being explicit not implicit, and more), each
+backed by a real test:
+
+```bash
+pytest tests/test_conformance.py -v
+```
 
 ## Related work
 
@@ -119,9 +154,9 @@ orchestration), [NVIDIA NeMo / NemoClaw](https://www.nvidia.com/en-us/ai/nemocla
 [OpenClaw](https://github.com/openclaw/openclaw) (the self-hosted,
 multi-channel gateway pattern for AI agents), and
 [OpenCode](https://github.com/anomalyco/opencode) (the open-source coding-agent
-pattern, MIT). What's original here is the governance seam itself
-(`GovernanceHook`) and the research behind it — published openly, independent
-of any client engagement:
+pattern, MIT). What's original here is the operating-model contract itself
+and the research behind it — published openly, independent of any client
+engagement:
 
 - [AEON: An Enterprise Control Plane Architecture for the Agentic Era](https://doi.org/10.5281/zenodo.20349596)
 - [OAgents: A Pre-Standardization Draft Profile for Operational AI Agent Trustworthiness](https://doi.org/10.5281/zenodo.19427785)

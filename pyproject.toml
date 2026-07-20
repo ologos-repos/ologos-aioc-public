@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ologos-aioc"
-version = "0.1.0"
-description = "A small, model-agnostic orchestration core: provider gateway, model catalog, tool-calling loop, and a governance extension point."
+version = "0.2.0"
+description = "A reference architecture and executable kernel for the control plane beneath an AI Operations Center: provider gateway, model catalog, tool-calling orchestrator, governance decision gate, evidence plane, and domain-console contracts."
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.10"
@@ -19,7 +19,8 @@ dependencies = []
 
 [project.optional-dependencies]
 openai = ["openai>=1.0"]
-dev = ["pytest>=8.0"]
+profiles = ["pyyaml>=6.0"]
+dev = ["pytest>=8.0", "pyyaml>=6.0"]
 
 [project.urls]
 Homepage = "https://ologos.co/aioc/"

@@ -1,0 +1,21 @@
+# Synthetic, illustrative domain-console profile. Not a real deployment
+# configuration -- demonstrates that a single control plane can present a
+# differentiated capability surface per operating domain.
+id: demo-infraops
+level: domain
+title: Infrastructure Operations Demonstrator
+description: >
+  A fictional domain slice showing infrastructure-facing capabilities
+  (read-only observation plus one confirmation-gated action) constrained
+  to what this domain is allowed to see and do.
+capabilities:
+  - id: demo-host-health-check
+    risk: low
+    side_effecting: false
+  - id: demo-restart-service
+    risk: high
+    side_effecting: true
+    confirmation_recommended: true
+views:
+  - operations
+  - evidence

@@ -1,0 +1,21 @@
+# Synthetic, illustrative domain-console profile. Not a real deployment
+# configuration -- demonstrates that a single control plane can present a
+# differentiated capability surface per operating domain.
+id: demo-cyberops
+level: domain
+title: Cyber Operations Demonstrator
+description: >
+  A fictional domain slice showing security-facing capabilities
+  (triage and planning) constrained to what this domain is allowed to
+  see and do -- distinct from the infrastructure domain's surface.
+capabilities:
+  - id: demo-vulnerability-triage
+    risk: low
+    side_effecting: false
+  - id: demo-remediation-planning
+    risk: medium
+    side_effecting: false
+views:
+  - operations
+  - evidence
+  - diagnostics

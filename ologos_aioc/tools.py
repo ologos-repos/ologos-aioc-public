@@ -4,6 +4,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Callable
 
+from .capabilities import CapabilityDescriptor
+
 
 @dataclass
 class Tool:
@@ -11,6 +13,7 @@ class Tool:
     description: str
     parameters: dict[str, Any]  # JSON Schema for the tool's arguments
     handler: Callable[..., Any]
+    capability: CapabilityDescriptor | None = None
 
     def to_schema(self) -> dict[str, Any]:
         """OpenAI tool-schema shape — the format most providers expect."""
