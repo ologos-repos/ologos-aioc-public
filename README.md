@@ -71,6 +71,8 @@ see [ologos.co/aioc](https://ologos.co/aioc/) — built on top of this same
 open interface. `GovernanceHook` is the seam: the open core ships a no-op
 default, a governed deployment supplies a real one.
 
+![One open interface, two things built on it: ologos-aioc (this repo, Apache-2.0) below, AIOC (Ologos's governed enterprise product) above, connected via GovernanceHook](docs/figures/layering.png)
+
 ## Background
 
 Ologos has developed and operated orchestration and governance patterns
@@ -89,25 +91,7 @@ environment surrounding AI models and agents: see
 
 ## Architecture
 
-```
-   your code
-      |
-      v
- Orchestrator.run(prompt)
-      |
-      |--> GovernanceHook.before_dispatch()   (identity/policy/audit seam)
-      |
-      v
- ModelCatalog.route(tag) --> ModelProvider.complete()
-      |
-      |--> tool_calls? --> ToolRegistry.execute() --> feed result back, loop
-      |
-      v
- GovernanceHook.after_dispatch()   (seam again, on the way out)
-      |
-      v
-   OrchestratorResult
-```
+![The orchestration loop: Orchestrator.run(prompt) dispatches through GovernanceHook.before_dispatch, routes via ModelCatalog to a ModelProvider, executes any tool calls through ToolRegistry and loops, then returns through GovernanceHook.after_dispatch to an OrchestratorResult](docs/figures/orchestration-flow.png)
 
 - **`ModelProvider`** — one method, `complete(messages, tools) -> ModelResponse`.
   Ships `EchoProvider` (network-free, for tests/demos) and
