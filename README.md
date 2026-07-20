@@ -102,6 +102,27 @@ environment surrounding AI models and agents: see
   (`MaxIterationsExceeded` is the runaway-loop backstop).
 - **`GovernanceHook`** — the extension point described above.
 
+## Related work
+
+This library synthesizes patterns from the broader open-source AI agent
+ecosystem rather than inventing them in isolation — most directly
+[LangChain](https://github.com/langchain-ai/langchain) (model-agnostic
+orchestration), [NVIDIA NeMo / NemoClaw](https://www.nvidia.com/en-us/ai/nemoclaw/)
+(enterprise agent stacks with a runtime-policy seam, alpha as of mid-2026),
+and [OpenClaw](https://github.com/openclaw/openclaw) (the self-hosted,
+multi-channel gateway pattern for AI agents). What's original here is the
+governance seam itself (`GovernanceHook`) and the research behind it —
+published openly, independent of any client engagement:
+
+- [AEON: An Enterprise Control Plane Architecture for the Agentic Era](https://doi.org/10.5281/zenodo.20349596)
+- [OAgents: A Pre-Standardization Draft Profile for Operational AI Agent Trustworthiness](https://doi.org/10.5281/zenodo.19427785)
+- [AIDEX: An Architecture for Human-Curated, AI-Enabled Knowledge Work](https://doi.org/10.5281/zenodo.20349597)
+- [Mx-Modes: A Meta-Harness Framework for Multi-Mode AI Operation](https://doi.org/10.5281/zenodo.20419449)
+- [Ordinal Systems Architecture (OrdSA): A Control Grammar for Enterprise AI Authority](https://doi.org/10.5281/zenodo.20334233)
+- [Portable Agent Harness Architecture (PAHA)](https://doi.org/10.5281/zenodo.20112632)
+
+The full, formalized specification is the [AI Harness Engineering Standard (AHES)](https://github.com/ologos-repos/ai-harness-engineering).
+
 ## Development
 
 ```bash
