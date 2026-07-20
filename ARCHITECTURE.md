@@ -32,10 +32,11 @@ Six layers, each a distinct architectural concern:
 2. **Authority and governance** — what that actor is permitted to do.
    Represented here by `GovernanceHook` and `GovernanceDecision`; the
    actual policy — precedence, entitlement, real reason codes — is not
-   part of this open core. Ologos's own governance layer draws on
-   published research into multi-mode AI operation (see *Related work* in
-   the README) — the open core exposes the seam that research informs,
-   not its operational implementation.
+   part of this open core. Ologos has deployed operational systems built
+   on published research into multi-mode AI operation (see *Related work*
+   in the README) — the practical implementation of that research is what
+   differentiates a governed deployment; the open core exposes the seam it
+   plugs into, not the implementation itself.
 3. **Model and capability routing** — which resource (model or tool)
    handles a given piece of work, and what that resource's risk profile
    is. Represented here by `ModelCatalog` and `CapabilityDescriptor`; a
