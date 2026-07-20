@@ -45,7 +45,7 @@ model — is where enterprises are choosing to consolidate trust.
 pip install git+https://github.com/ologos-repos/ologos-aioc-public.git
 ```
 
-(Not yet published to PyPI as `ologos-aioc` — installing from GitHub works today; a PyPI release is a reasonable follow-up once the API has settled.)
+(Installs directly from GitHub — this package is not on PyPI.)
 
 ```python
 from ologos_aioc import EchoProvider, ModelCatalog, Orchestrator, Tool, ToolRegistry
