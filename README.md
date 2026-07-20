@@ -109,10 +109,12 @@ ecosystem rather than inventing them in isolation — most directly
 [LangChain](https://github.com/langchain-ai/langchain) (model-agnostic
 orchestration), [NVIDIA NeMo / NemoClaw](https://www.nvidia.com/en-us/ai/nemoclaw/)
 (enterprise agent stacks with a runtime-policy seam, alpha as of mid-2026),
-and [OpenClaw](https://github.com/openclaw/openclaw) (the self-hosted,
-multi-channel gateway pattern for AI agents). What's original here is the
-governance seam itself (`GovernanceHook`) and the research behind it —
-published openly, independent of any client engagement:
+[OpenClaw](https://github.com/openclaw/openclaw) (the self-hosted,
+multi-channel gateway pattern for AI agents), and
+[OpenCode](https://github.com/anomalyco/opencode) (the open-source coding-agent
+pattern, MIT). What's original here is the governance seam itself
+(`GovernanceHook`) and the research behind it — published openly, independent
+of any client engagement:
 
 - [AEON: An Enterprise Control Plane Architecture for the Agentic Era](https://doi.org/10.5281/zenodo.20349596)
 - [OAgents: A Pre-Standardization Draft Profile for Operational AI Agent Trustworthiness](https://doi.org/10.5281/zenodo.19427785)
