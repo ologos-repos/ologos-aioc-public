@@ -7,8 +7,10 @@ build a governed AI operations layer, released as a clean, dependency-free
 core.
 
 ```bash
-pip install ologos-aioc
+pip install git+https://github.com/ologos-repos/ologos-aioc-public.git
 ```
+
+(Not yet published to PyPI as `ologos-aioc` — installing from GitHub works today; a PyPI release is a reasonable follow-up once the API has settled.)
 
 ```python
 from ologos_aioc import EchoProvider, ModelCatalog, Orchestrator, Tool, ToolRegistry
