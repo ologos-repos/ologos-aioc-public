@@ -1,10 +1,33 @@
 # ologos-aioc
 
-A small, model-agnostic orchestration core: a provider gateway, a named model
-catalog, a tool-calling agent loop, and a governance extension point. No
-vendor lock-in, no framework sprawl — the pieces you'd actually reach for to
-build a governed AI operations layer, released as a clean, dependency-free
-core.
+**The open core beneath Ologos's AI Operations Center (AIOC).**
+
+In 2026, frontier models proved they can find and exploit software
+vulnerabilities faster and more thoroughly than almost any human team —
+Anthropic's Project Glasswing alone has already surfaced tens of thousands
+of high-severity findings industry-wide. That capability shift cuts both
+ways: the same class of model that finds the vulnerability can run the
+operation that responds to it, deploys the fix, and holds an audit trail
+of what happened. The question every enterprise now faces isn't whether AI
+runs in its operations — it's whether that operation is governed, auditable,
+and owned, or improvised.
+
+Industry analysis has independently reached the same conclusion. McKinsey's
+2025 research on agentic AI: *"ROI comes from strong intent: define the
+outcomes, embed agents deep in core workflows, and redesign operating
+models around them."* ServiceNow's CEO put it more bluntly: *"Whoever
+controls AI governance and orchestration across the enterprise captures a
+lot of the value in an agentic future."* The orchestration layer — not the
+model — is where enterprises are choosing to consolidate trust.
+
+`ologos-aioc` is the openly published core of that layer: a small,
+model-agnostic orchestration library — provider gateway, model catalog,
+tool-calling loop, and a governance extension point — released so the
+pattern is available to build on, independent of the governed enterprise
+product built on top of it. See [ologos.co/aioc](https://ologos.co/aioc/)
+for that product and the case for why it matters at enterprise scale, and
+the [AI Harness Engineering Standard](https://github.com/ologos-repos/ai-harness-engineering)
+for the formal specification behind the governance seam below.
 
 ```bash
 pip install git+https://github.com/ologos-repos/ologos-aioc-public.git
