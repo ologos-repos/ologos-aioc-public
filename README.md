@@ -21,6 +21,14 @@ operators. That's a broader claim than "an agent library," and this repo
 is built to demonstrate the whole shape of it — as an architecture readers
 can inspect, not just a package to install.
 
+![AI Lifecycle Management (AILM) executive overview: a ten-stage end-to-end lifecycle from Strategy & Demand through Retire & Archive with cross-cutting governance; the AI Operations Center (AIOC) as enterprise command, control and accountability (see, decide, orchestrate, respond, communicate) with its inputs and outputs; an integrated platform ecosystem layer; and the managed AI ecosystem of models, agents, tools, data, systems, and human operators](docs/figures/ailm-executive-overview.png)
+
+*The executive frame: AI Lifecycle Management (AILM) defines what must be
+done with AI from strategy to retirement; the AI Operations Center operates
+and decides across the enterprise, enabled by an integrated platform
+ecosystem. This repository is the executable kernel beneath that AIOC
+layer.*
+
 In 2026, frontier models proved they can find and exploit software
 vulnerabilities faster and more thoroughly than almost any human team —
 Anthropic's Project Glasswing alone has already surfaced tens of thousands
