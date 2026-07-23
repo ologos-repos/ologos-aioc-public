@@ -100,8 +100,9 @@ real policy.
 
 Ologos has developed and operated orchestration and governance patterns
 like these internally since late 2025, as part of our AI Operations Center
-(AIOC) work for enterprise and public-sector engagements. This package is a
-new, independently written reference implementation of that architecture —
+(AIOC) concept intended for enterprise and public-sector engagements. This
+package is a new, independently written reference implementation of that
+architecture —
 not an extraction of any client or internal codebase — released so the
 pattern itself is available to build on, separate from the governed
 product built around it. See [`IP-BOUNDARY.md`](IP-BOUNDARY.md) for exactly
